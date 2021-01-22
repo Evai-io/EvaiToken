@@ -81,8 +81,15 @@ contract Evaitoken is ERC20Interface, SafeMath {
 
     uint8 public constant decimals = 8;
     address public owner;
+    address public newOwner = address(0);
     string public constant name = "EVAI";
     string public constant symbol = "Ev";
+
+    event OwnerProposed(address newOwner);
+    event OwnershipTransferred(
+        address indexed previousOwner,
+        address indexed newOwner
+    );
 
     constructor() public {
         totalSupply = initialSupply = 1000000000 * 10**uint256(decimals);
@@ -194,6 +201,33 @@ contract Evaitoken is ERC20Interface, SafeMath {
         balances[msg.sender] = safeSub(balances[msg.sender], tokens);
         totalSupply = safeSub(totalSupply, tokens);
         emit Burn(msg.sender, address(0), tokens);
+        return true;
+    }
+
+    function proposeOwner(address proposedOwner)
+        public
+        onlyOwner
+        returns (bool)
+    {
+        require(
+            proposedOwner != address(0) &&
+                proposedOwner != owner &&
+                proposedOwner == address(proposedOwner),
+            "proposedOwner is not valid"
+        );
+        emit OwnerProposed(proposedOwner);
+        newOwner = proposedOwner;
+        return true;
+    }
+
+    function setOwner() public returns (bool) {
+        require(
+                newOwner == msg.sender,
+            "Function should be called by valid proposed owner"
+        );
+        emit OwnershipTransferred(owner, newOwner);
+        owner = msg.sender;
+        newOwner = address(0);
         return true;
     }
 }
