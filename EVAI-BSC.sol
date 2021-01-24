@@ -40,7 +40,7 @@ abstract contract ERC20Interface {
         uint256 tokens
     ) external virtual returns (bool);
 
-    function burn(uint256 tokens) external virtual returns (bool success);
+    function burn(uint256 tokens) external virtual returns (bool);
 
     function operationProfit(uint256 _profit) external virtual returns (bool);
 
@@ -50,8 +50,8 @@ abstract contract ERC20Interface {
         address indexed spender,
         uint256 tokens
     );
-    event Burn(address from, address, uint256 value);
-    event Profit(address from, uint256 profit, uint256 totalProfit);
+    event Burn(address indexed from, address indexed, uint256 value);
+    event Profit(address indexed from, uint256 profit, uint256 totalProfit);
 }
 
 // ----------------------------------------------------------------------------
@@ -61,13 +61,11 @@ contract SafeMath {
     function safeAdd(uint256 a, uint256 b) internal pure returns (uint256 c) {
         c = a + b;
         require(c >= a, "SafeMath: addition overflow");
-        return c;
     }
 
     function safeSub(uint256 a, uint256 b) internal pure returns (uint256 c) {
         require(b <= a, "SafeMath: subtraction overflow");
         c = a - b;
-        return c;
     }
 }
 
@@ -81,7 +79,7 @@ contract Evaitoken is ERC20Interface, SafeMath {
 
     uint8 public constant decimals = 8;
     address public owner;
-    address public newOwner = address(0);
+    address public newOwner;
     string public constant name = "EVAI";
     string public constant symbol = "Ev";
 
@@ -205,29 +203,27 @@ contract Evaitoken is ERC20Interface, SafeMath {
     }
 
     function proposeOwner(address proposedOwner)
-        public
+        external
         onlyOwner
         returns (bool)
     {
         require(
-            proposedOwner != address(0) &&
-                proposedOwner != owner &&
-                proposedOwner == address(proposedOwner),
+            proposedOwner != address(0) && proposedOwner != owner,
             "proposedOwner is not valid"
         );
-        emit OwnerProposed(proposedOwner);
         newOwner = proposedOwner;
+        emit OwnerProposed(proposedOwner);
         return true;
     }
 
-    function setOwner() public returns (bool) {
+    function claimOwnership() external returns (bool) {
         require(
-                newOwner == msg.sender,
+            newOwner == msg.sender,
             "Function should be called by valid proposed owner"
         );
-        emit OwnershipTransferred(owner, newOwner);
         owner = msg.sender;
         newOwner = address(0);
+        emit OwnershipTransferred(owner, newOwner);
         return true;
     }
 }
