@@ -50,7 +50,7 @@ abstract contract ERC20Interface {
         address indexed spender,
         uint256 tokens
     );
-    event Burn(address indexed from, address indexed, uint256 value);
+    event Burn(address indexed from, uint256 value);
     event Profit(address indexed from, uint256 profit, uint256 totalProfit);
 }
 
@@ -198,7 +198,7 @@ contract Evaitoken is ERC20Interface, SafeMath {
     function burn(uint256 tokens) external override onlyOwner returns (bool) {
         balances[msg.sender] = safeSub(balances[msg.sender], tokens);
         totalSupply = safeSub(totalSupply, tokens);
-        emit Burn(msg.sender, address(0), tokens);
+        emit Burn(msg.sender, tokens);
         return true;
     }
 
