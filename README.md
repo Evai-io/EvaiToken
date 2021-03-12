@@ -8,7 +8,7 @@ Evai provides incentives to holders via an index tracker fund, staking pool, com
 **BEP-20 compatibility** 
 Evai has taken steps to ensure compatibility between the EVAI Token and BSC. In doing so, we’ve opened up an entire wealth of future collaborative possibilities, including facilitating the seamless transfers of value between Evai and the Binance Smart Chain as well as any protocols and platforms supporting those standards.
 
-##EVAI Tokenomics & Distribution
+## EVAI Tokenomics & Distribution
 
 **Tokenomics:**
  
@@ -33,7 +33,7 @@ Evai has engaged CertiK and their meticulous testing and customised security int
 CertiK has provided hacker-resistant smart contracts and blockchain audits to some of the industry's most established blockchain businesses, including The Ethereum Foundation, IBM, Binance, and Etherscan.
 Click here for a full overview of CertiK's security assessment of the EVAI token. [Link to Certik Token audit]
 
-##Under Development
+## Under Development
 The following features are still under development and therefore not yet available:
 A distributed token-based voting mechanism will be implemented for constituents to use their EVAI tokens to propose changes and vote on the direction of platform development. Token holders will be able to vote for or against proposals. Once the proposal reaches a predefined threshold, the vote passes or fails, and appropriate corresponding actions are taken.
 
